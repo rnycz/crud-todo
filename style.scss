@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+*{
+    box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #e6e6e6;
+}
+.todo {
+  text-align: center;
+  width: 50%;
+  margin: 3rem auto 3rem auto;
+  height: fit-content;
+}
+.todo-container {
+  width: 100%;
+  padding: 15px;
+  background: rgb(37, 37, 37);
+  border-radius: 20px 20px 0 0;
+  color: white;
+  h1 {
+    font-size: 6rem;
+    margin: 0;
+  }
+  input {
+    background: none;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid white;
+    padding: 8px;
+    font-size: 1.3rem;
+    color: white;
+    width: 60%;
+  }
+  ::placeholder { 
+    color: white;
+    opacity: 0.7; 
+  } 
+  :-ms-input-placeholder { 
+    color: white;
+  } 
+  ::-ms-input-placeholder { 
+    color: white;
+  }
+}
+.todo-list {
+  height: 60vh;
+  background-color: white;
+  overflow-x: auto;
+  border-radius: 0 0 5px 5px;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 0 0 5px 5px; 
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgb(129, 129, 129);
+    border-radius: 0 0 5px 5px; 
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgb(37, 37, 37); 
+  }
+}
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(1px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(1px, 0, 0);
+  }
+}
+#todo {
+  padding: 0 10px 0 10px;
+  li {
+    list-style: none;
+    font-size: 1.2rem;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    animation: shake 0.6s;
+    p{
+      padding-left: 1rem;
+      padding-right: 1rem;
+      &.text{
+        padding-top: 1rem;
+        font-weight: bold;
+      }
+    }
+    button{
+        outline: none;
+        border: none;
+        margin: 15px;
+        border-radius: 50%;
+        background-color: inherit;
+        font-size: 1.8rem;
+        cursor: pointer;
+        &:hover{
+            transition: all 0.5s;
+            color: white;
+        }
+    }
+  }
+}
+.done {
+    background-color: rgb(175, 4, 4);
+    transition: all 0.5s;
+    color: white;
+  }
+.undone {
+    background-color: lightgreen;
+    transition: all 0.5s;
+  }
+.text-edit{
+  outline: none;
+  background: rgb(37, 37, 37);
+  color: white;
+  width: 90%;
+  margin: auto;
+  border: 3px solid white;
+  border-radius: 5px;
+  padding-bottom: 0.5rem;
+  animation: fadeIn 0.6s 1;
+}
+@keyframes fadeIn{
+  from{transform: scaleX(0);}
+  to{transform: scaleX(1);}
+}
+
+.label-class {
+  margin-right: 45px;
+  margin-left: 20px;
+  padding: 2px;
+  display: inline;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 6px;
+    height: 11px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+}
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 27px;
+  width: 27px;
+  background-color: white;
+  border-radius: 50%;
+  transition: all 0.5s;
+  &::before{
+    content: "\2716";
+  }
+  &::after{
+    content: "";
+    position: absolute;
+    display: none;
+  }
+}
+
+.label-class:hover input ~ .checkmark {
+  background-color: rgb(223, 223, 223);
+}
+
+.label-class input:checked ~ .checkmark {
+  background-color: black;
+}
+
+.label-class input:disabled ~ .checkmark {
+  cursor: no-drop;
+}
+
+.label-class input:checked ~ .checkmark:after {
+  display: inline;
+}
+.label-class input:checked ~ .checkmark::before {
+  content: "";
+}
+
+@media only screen and (max-width: 800px){
+  .todo{
+    width: 85%;
+  }
+}
