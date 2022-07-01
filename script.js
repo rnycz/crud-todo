@@ -1,41 +1,19 @@
-function doIt(){
-
-const form = document.getElementById("form");
-const input = document.getElementById("input");
-const todo = document.getElementById("todo");
+const form = document.querySelector("#form");
+const input = document.querySelector("#input");
+const todo = document.querySelector("#todo");
 let todoList = [];
 
-renderList();
-form.addEventListener("submit", function (e){
-    e.preventDefault();
-    addToList();
-})
+const getDate = () =>{
+    let today = new Date();
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth()+1).padStart(2, "0");
+    const year = today.getFullYear();
+    const minutes = String(today.getMinutes()).padStart(2, "0");
+    const hours = String(today.getHours()).padStart(2, "0");
+    return `${day}.${month}.${year} ${hours}:${minutes}`;
+}
 
-function getDate(){
-    var today = new Date();
-    var day = String(today.getDate()).padStart(2, "0");
-    var month = String(today.getMonth()+1).padStart(2, "0");
-    var year = today.getFullYear();
-    var minutes = String(today.getMinutes()).padStart(2, "0");
-    var hours = String(today.getHours()).padStart(2, "0");
-    today = day+"."+month+"."+year+" "+hours+":"+minutes;
-    return today;
-}
-function addToList(){
-    const newItem = input.value;
-    if(!newItem){
-        return;
-    }
-    todoList.push({
-        text: newItem,
-        completed: false,
-        date: getDate(),
-        editDate: null
-    });
-    localStorage.setItem("todos", JSON.stringify(todoList));
-    renderList();  
-}
-function renderList(){   
+const renderList = () =>{   
     todo.innerHTML = null;
     const todos = localStorage.getItem("todos");
     todoList = JSON.parse(todos) || [];
@@ -61,7 +39,7 @@ function renderList(){
             checkbox.checked = todoList[i].completed;
         }
 
-        checkbox.addEventListener("click", function(e){
+        checkbox.addEventListener("click", (e) =>{
             todoList[i].completed = e.target.checked;
             localStorage.setItem("todos", JSON.stringify(todoList));
 
@@ -80,18 +58,18 @@ function renderList(){
         text.innerText = todoList[i].text;
 
         const date = document.createElement("p");
-        date.innerHTML = "<i class='far fa-calendar-plus'></i> "+todoList[i].date;
+        date.innerHTML = `<i class='far fa-calendar-plus'></i> ${todoList[i].date}`;
 
         const editDate = document.createElement("span");
         date.appendChild(editDate);
-        editDate.innerHTML = "<br /><i class='fas fa-pen'></i> "+todoList[i].editDate;
+        editDate.innerHTML = `<br /><i class='fas fa-pen'></i> ${todoList[i].editDate}`;
         if(todoList[i].editDate == null || todoList[i].editDate == "undefined"){
             editDate.style.display = "none";
         }
         
         const deleteBTN = document.createElement("button");
         deleteBTN.innerHTML = '<i class="far fa-trash-alt"></i>'
-        deleteBTN.addEventListener("click", function () {
+        deleteBTN.addEventListener("click", () =>{
           todoList.splice(i, 1);
           localStorage.setItem("todos", JSON.stringify(todoList));
           renderList();
@@ -100,12 +78,12 @@ function renderList(){
         let editText = document.getElementsByClassName("text");
         const editBTN = document.createElement("button");
         editBTN.innerHTML = '<i class="fas fa-pen-square"></i>';
-        editBTN.addEventListener("click", function(){           
+        editBTN.addEventListener("click", () =>{           
             editText[i].contentEditable = true;
             editBTN.innerHTML = '<i class="fas fa-check"></i>';
             editText[i].classList.add("text-edit");
             checkbox.disabled = true;
-            editBTN.addEventListener("click", function(){
+            editBTN.addEventListener("click", () =>{
                 if(todoList[i].text != editText[i].innerHTML){
                     todoList[i].editDate = getDate();
                     todoList[i].text = editText[i].innerText;
@@ -126,4 +104,24 @@ function renderList(){
         input.value = null;
     }
 }
+renderList();
+
+const addToList = () =>{
+    const newItem = input.value;
+    if(!newItem){
+        return;
+    }
+    todoList.push({
+        text: newItem,
+        completed: false,
+        date: getDate(),
+        editDate: null
+    });
+    localStorage.setItem("todos", JSON.stringify(todoList));
+    renderList();  
 }
+
+form.addEventListener("submit", (e) =>{
+    e.preventDefault();
+    addToList();
+})
